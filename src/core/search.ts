@@ -44,7 +44,11 @@ function matchesOptions(repo: RawRepo, opts: SearchOptions): boolean {
     (s.pushedDaysAgo === null || s.pushedDaysAgo > opts.pushedWithinDays)
   )
     return false;
-  if (opts.license !== undefined && s.license !== opts.license) return false;
+  if (
+    opts.license !== undefined &&
+    s.license?.toLowerCase() !== opts.license.toLowerCase()
+  )
+    return false;
   if (opts.excludeForks !== false && s.isFork) return false;
   if (opts.excludeArchived !== false && s.archived) return false;
   return true;
@@ -97,7 +101,7 @@ export async function searchCandidates(
     const repos: RawRepo[] = [];
     for (const name of ctx.cache.searchCached(query)) {
       if (repos.length >= limit) break;
-      const cached = ctx.cache.getRepo(name);
+      const cached = ctx.cache.getRepo(name, { allowStale: true });
       if (cached !== null && matchesOptions(cached, opts)) repos.push(cached);
     }
     return repos;

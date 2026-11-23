@@ -81,7 +81,7 @@ export type RawRepo = {
 export type FetchCtx = { token?: string; cache: Cache };
 
 export interface Cache {
-  getRepo(fullName: string): RawRepo | null;
+  getRepo(fullName: string, opts?: { allowStale?: boolean }): RawRepo | null; // allowStale: ignore 24h TTL (offline)
   putRepo(repo: RawRepo): void;
   getEmbedding(key: string): number[] | null;
   putEmbedding(key: string, vec: number[]): void;
