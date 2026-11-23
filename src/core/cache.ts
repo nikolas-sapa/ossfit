@@ -75,10 +75,12 @@ export function openCache(dbPath: string): Cache {
   );
 
   return {
-    getRepo(fullName: string): RawRepo | null {
+    getRepo(fullName: string, opts?: { allowStale?: boolean }): RawRepo | null {
       const row = getStmt.get(fullName) as RepoRow | undefined;
       if (row === undefined) return null;
-      if (Date.now() - row.fetched_at > FRESHNESS_MS) return null;
+      if (opts?.allowStale !== true && Date.now() - row.fetched_at > FRESHNESS_MS) {
+        return null;
+      }
       return {
         fullName: row.full_name,
         url: row.url,
