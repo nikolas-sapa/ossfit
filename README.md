@@ -13,7 +13,7 @@ One npm package, three interfaces over a shared scoring engine: **CLI**, **self-
 ## Install
 
 ```sh
-git clone https://github.com/<you>/ossfit && cd ossfit
+git clone https://github.com/nikolas-sapa/ossfit && cd ossfit
 npm install && npm run build && npm link   # `ossfit` on your PATH
 # or without linking:
 npx tsx src/cli/index.ts --help
